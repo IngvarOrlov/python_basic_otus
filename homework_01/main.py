@@ -22,12 +22,13 @@ ODD = "odd"
 EVEN = "even"
 PRIME = "prime"
 
+
 def is_prime(num):
     if num <= 1:
         return False
-    elif num == 2 or num == 5 or num ==3:
+    elif num == 2 or num == 5 or num == 3:
         return True
-    # убираем больше половины вариантов, если число делится на 2 или 3 или 5. Таких чисел много, поэтому процесс ускоряется
+    # убираем больше половины вариантов, если число делится на 2 или 3 или 5. Таких чисел много, процесс ускоряется
     elif num % 2 == 0 or num % 3 == 0 or num % 5 == 0:
         return False
     # остальное перебираем
@@ -36,7 +37,9 @@ def is_prime(num):
             if num % div == 0:
                 return False
         return True
-def filter_numbers(nums, type):
+
+
+def filter_numbers(nums, desired_type):
     """
     функция, которая на вход принимает список из целых чисел,
     и возвращает только чётные/нечётные/простые числа
@@ -47,9 +50,9 @@ def filter_numbers(nums, type):
     >>> filter_numbers([2, 3, 4, 5], EVEN)
     <<< [2, 4]
     """
-    if type == ODD:
+    if desired_type == ODD:
         return [i for i in nums if i % 2 == 1]
-    elif type == EVEN:
+    elif desired_type == EVEN:
         return [i for i in nums if i % 2 == 0]
-    elif type == PRIME:
+    elif desired_type == PRIME:
         return list(filter(is_prime, nums))
