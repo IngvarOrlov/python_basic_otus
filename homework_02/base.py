@@ -52,11 +52,7 @@ class Vehicle(ABC):
                 raise LowFuelError("Not enough fuel to start your car!")
 
     def move(self, distance: int | float):
-#        rest_of_fuel = self._fuel - distance*self._fuel_consumption
-#        if rest_of_fuel < 0:
-#            raise NotEnoughFuel("Not enough fuel to travel this far")
-#        else:
-#            self._fuel = rest_of_fuel
-        if distance * self.fuel_consumption > self.fuel:
-            raise NotEnoughFuel
-        self.fuel -= distance * self.fuel_consumption
+        fuel_need = distance * self.fuel_consumption
+        if fuel_need > self.fuel:
+            raise NotEnoughFuel("Not enough fuel to travel this far")
+        self.fuel -= fuel_need
