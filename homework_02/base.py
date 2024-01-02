@@ -4,7 +4,7 @@ from homework_02.exceptions import LowFuelError, NotEnoughFuel
 
 
 class Vehicle(ABC):
-    def __init__(self, weight=0, fuel=0, fuel_consumption=10):
+    def __init__(self, weight=1600, fuel=100, fuel_consumption=10):
         super().__init__()
         self._weight = weight
         self.started = False
@@ -28,7 +28,7 @@ class Vehicle(ABC):
 
     @fuel.setter
     def fuel(self, new_val):
-        if isinstance(new_val, int) and 0 <= new_val <= 100:
+        if isinstance(new_val, int) and 0 <= new_val <= 200:
             self._fuel = new_val
         else:
             print("New fuel value incorrect")
@@ -39,7 +39,7 @@ class Vehicle(ABC):
 
     @fuel_consumption.setter
     def fuel_consumption(self, value):
-        if isinstance(value, int) and 1 <= value <= 30:
+        if isinstance(value, int) and 1 <= value <= 50:
             self._fuel_consumption = value
         else:
             print("New fuel consumption value incorrect")
@@ -52,8 +52,11 @@ class Vehicle(ABC):
                 raise LowFuelError("Not enough fuel to start your car!")
 
     def move(self, distance: int | float):
-        rest_of_fuel = self._fuel - (distance / 100)*self._fuel_consumption
-        if rest_of_fuel < 0:
-            raise NotEnoughFuel("Not enough fuel to travel this far")
-        else:
-            self._fuel = rest_of_fuel
+#        rest_of_fuel = self._fuel - distance*self._fuel_consumption
+#        if rest_of_fuel < 0:
+#            raise NotEnoughFuel("Not enough fuel to travel this far")
+#        else:
+#            self._fuel = rest_of_fuel
+        if distance * self.fuel_consumption > self.fuel:
+            raise NotEnoughFuel
+        self.fuel -= distance * self.fuel_consumption
