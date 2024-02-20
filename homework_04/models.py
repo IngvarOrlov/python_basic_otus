@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, Integer
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -7,18 +7,20 @@ from config import DB_ASYNC_URL
 
 # PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/psqldb"
 engine = create_async_engine(DB_ASYNC_URL, echo=True)
-session = AsyncSession(bind=engine, autocommit=False)
+session = async_sessionmaker(bind=engine, autocommit=False)
 Base = declarative_base()
-
+# def get_session():
+#     with async_sessionmaker as se
 
 class IdMixin:
-    Column("id", Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
 
 class User(Base, IdMixin):
-    Column("name", String, nullable=False)
-    Column("username", String, nullable=False, unique=True)
-    Column("email", String, nullable=False, unique=True)
+    __tablename__ = 'users'
+    name = Column(String, nullable=False)
+    username = Column(String, nullable=False, unique=True)
+    email = Column(String, nullable=False, unique=True)
     posts = relationship("Post", back_populates="user", uselist=True)
 
 
@@ -26,9 +28,10 @@ class User(Base, IdMixin):
 
 
 class Post(Base, IdMixin):
-    Column("user_id", Integer, nullable=False)
-    Column("title", String, nullable=False)
-    Column("body", String, default="")
+    __tablename__ = 'posts'
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False, )
+    title = Column(String, nullable=False)
+    body = Column(String, default="")
     user = relationship("User", back_populates="posts", uselist=False)
 
 

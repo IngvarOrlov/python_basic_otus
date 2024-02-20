@@ -1,3 +1,33 @@
+import asyncio
+
+from jsonplaceholder_requests import get_users, get_posts, USERS_DATA_URL, POSTS_DATA_URL
+
+
+async def get_users_and_put_theme_into_db(url):
+    users = await get_users(url)
+    for user in users:
+        print(user.name)
+
+async def get_posts_and_put_theme_into_db(url):
+    posts = await get_posts(url)
+    for post in posts:
+        print(post.title)
+
+
+async def async_main():
+    await get_users_and_put_theme_into_db(USERS_DATA_URL)
+    await get_posts_and_put_theme_into_db(POSTS_DATA_URL)
+
+
+
+def main():
+    asyncio.run(async_main())
+
+
+if __name__ == "__main__":
+    main()
+
+
 """
 Домашнее задание №4
 Асинхронная работа с сетью и бд
@@ -14,13 +44,3 @@
 """
 
 
-async def async_main():
-    pass
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
