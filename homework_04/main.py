@@ -2,13 +2,13 @@ import asyncio
 
 from models import  create_tables
 from jsonplaceholder_requests import get_users, get_posts, USERS_DATA_URL, POSTS_DATA_URL
-from models import session, Base
+from models import Session, Base
 
 
 async def put_into_db(res):
     for data in res:
-        session.add_all(data)
-    await session.commit()
+        Session.add_all(data)
+    await Session.commit()
 
 
 async def async_main():

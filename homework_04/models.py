@@ -8,7 +8,7 @@ from config import DB_ASYNC_URL
 # PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/psqldb"
 engine = create_async_engine(DB_ASYNC_URL, echo=True)
 # session = async_sessionmaker(bind=engine, autocommit=False)
-session = AsyncSession(engine)
+Session = AsyncSession(engine)
 
 
 
