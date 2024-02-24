@@ -2,16 +2,15 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import relationship
-
 from config import DB_ASYNC_URL
-
 # PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/psqldb"
-engine = create_async_engine(DB_ASYNC_URL, echo=False)
+engine = create_async_engine(DB_ASYNC_URL, echo=True)
+
 
 def Session():
     session = AsyncSession(engine)
     return session
-
+# session = AsyncSession(engine)
 
 class Base(DeclarativeBase):
     pass
@@ -41,21 +40,3 @@ async def create_tables():
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
 
-"""
-создайте алхимичный engine
-добавьте declarative base (свяжите с engine)
-создайте объект Session
-добавьте модели User и Post, объявите поля:
-для модели User обязательными являются name, username, email
-для модели Post обязательными являются user_id, title, body
-создайте связи relationship между моделями: User.posts и Post.user
-
-- доработайте модуль `models`:
-    - создайте асинхронный алхимичный `engine` (при помощи `create_async_engine`)
-    - добавьте `declarative base`
-    - создайте объект `Session` на основе класса `AsyncSession`
-    - добавьте модели `User` и `Post`, объявите поля:
-        - для модели `User` обязательными являются `name`, `username`, `email`
-        - для модели `Post` обязательными являются `user_id`, `title`, `body`
-        - создайте связи `relationship` между моделями: `User.posts` и `Post.user`
-"""

@@ -1,14 +1,17 @@
 import asyncio
 
+from sqlalchemy import select
+
 from models import  create_tables
 from jsonplaceholder_requests import get_users, get_posts, USERS_DATA_URL, POSTS_DATA_URL
-from models import Session, Base
+from models import Session, Base, User
 
+session = Session()
 
 async def put_into_db(res):
     for data in res:
-        Session().add_all(data)
-    await Session().commit()
+        session.add_all(data)
+    await session.commit()
 
 
 async def async_main():
@@ -19,28 +22,13 @@ async def async_main():
         )
     await put_into_db(res=res)
 
+    user = await session.execute(select(User.name, User.username).where(User.id < 10))
+    print(user.all())
+    await session.close()
 
 def main():
     asyncio.run(async_main())
 
-
 if __name__ == "__main__":
     main()
-
-
-"""
-Домашнее задание №4
-Асинхронная работа с сетью и бд
-
-доработайте функцию main, по вызову которой будет выполняться полный цикл программы
-(добавьте туда выполнение асинхронной функции async_main):
-- создание таблиц (инициализация)
-- загрузка пользователей и постов
-    - загрузка пользователей и постов должна выполняться конкурентно (параллельно)
-      при помощи asyncio.gather (https://docs.python.org/3/library/asyncio-task.html#running-tasks-concurrently)
-- добавление пользователей и постов в базу данных
-  (используйте полученные из запроса данные, передайте их в функцию для добавления в БД)
-- закрытие соединения с БД
-"""
-
 
