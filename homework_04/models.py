@@ -1,16 +1,20 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import relationship
 
 from config import DB_ASYNC_URL
 
 # PG_CONN_URI = os.environ.get("SQLALCHEMY_PG_CONN_URI") or "postgresql+asyncpg://postgres:password@localhost/psqldb"
 engine = create_async_engine(DB_ASYNC_URL, echo=True)
-session = async_sessionmaker(bind=engine, autocommit=False)
-Base = declarative_base()
-# def get_session():
-#     with async_sessionmaker as se
+# session = async_sessionmaker(bind=engine, autocommit=False)
+session = AsyncSession(engine)
+
+
+
+class Base(DeclarativeBase):
+    pass
+
 
 class IdMixin:
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -24,9 +28,6 @@ class User(Base, IdMixin):
     posts = relationship("Post", back_populates="user", uselist=True)
 
 
-
-
-
 class Post(Base, IdMixin):
     __tablename__ = 'posts'
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False, )
@@ -34,6 +35,10 @@ class Post(Base, IdMixin):
     body = Column(String, default="")
     user = relationship("User", back_populates="posts", uselist=False)
 
+async def create_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+        await conn.run_sync(Base.metadata.create_all)
 
 """
 создайте алхимичный engine

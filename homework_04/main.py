@@ -1,23 +1,22 @@
 import asyncio
 
+from models import  create_tables
 from jsonplaceholder_requests import get_users, get_posts, USERS_DATA_URL, POSTS_DATA_URL
+from models import session, Base
 
 
-async def get_users_and_put_theme_into_db(url):
-    users = await get_users(url)
-    for user in users:
-        print(user.name)
-
-async def get_posts_and_put_theme_into_db(url):
-    posts = await get_posts(url)
-    for post in posts:
-        print(post.title)
+async def put_into_db(res):
+    for data in res:
+        session.add_all(data)
+    await session.commit()
 
 
 async def async_main():
-    await get_users_and_put_theme_into_db(USERS_DATA_URL)
-    await get_posts_and_put_theme_into_db(POSTS_DATA_URL)
-
+    await create_tables()
+    res = await asyncio.gather(
+        get_users(USERS_DATA_URL),
+        get_posts(POSTS_DATA_URL))
+    await put_into_db(res=res)
 
 
 def main():

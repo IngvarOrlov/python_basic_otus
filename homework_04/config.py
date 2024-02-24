@@ -1,1 +1,1 @@
-DB_ASYNC_URL="postgresql+asyncpg://postgres:password@localhost/psqldb"
+DB_ASYNC_URL = "postgresql+asyncpg://postgres:postgres@localhost/psqldb"
