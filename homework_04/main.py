@@ -7,8 +7,8 @@ from models import Session, Base
 
 async def put_into_db(res):
     for data in res:
-        Session.add_all(data)
-    await Session.commit()
+        Session().add_all(data)
+    await Session().commit()
 
 
 async def async_main():
