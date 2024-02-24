@@ -15,7 +15,8 @@ async def async_main():
     await create_tables()
     res = await asyncio.gather(
         get_users(USERS_DATA_URL),
-        get_posts(POSTS_DATA_URL))
+        get_posts(POSTS_DATA_URL)
+        )
     await put_into_db(res=res)
 
 

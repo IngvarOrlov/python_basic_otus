@@ -2,16 +2,10 @@ import asyncio
 from aiohttp import ClientSession
 from models import User, Post
 
-USERS_DATA_URL = "https://my-json-server.typicode.com/IngvarOrlov/python_basic_otus/db"
-POSTS_DATA_URL = "https://my-json-server.typicode.com/IngvarOrlov/python_basic_otus/db"
-# POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/users"
-
-# @dataclass
-# class User:
-#     id: int
-#     name: str
-#     username: str
-#     email: str
+# USERS_DATA_URL = "https://my-json-server.typicode.com/IngvarOrlov/python_basic_otus/users"
+# POSTS_DATA_URL = "https://my-json-server.typicode.com/IngvarOrlov/python_basic_otus/posts"
+USERS_DATA_URL = "https://jsonplaceholder.typicode.com/users"
+POSTS_DATA_URL = "https://jsonplaceholder.typicode.com/posts"
 
 
 async def fetch_api(url) -> dict:
@@ -20,10 +14,9 @@ async def fetch_api(url) -> dict:
             data: dict = await response.json()
             return data
 
+
 async def get_users(url) -> list[User]:
-    data = await fetch_api(url)
-    users_json = data['users']
-    # print(users_json)
+    users_json = await fetch_api(url)
     users =[]
     for user in users_json:
         users.append(User(id = user['id'],
@@ -33,15 +26,15 @@ async def get_users(url) -> list[User]:
     return users
 
 
-async def get_posts(url) -> list[User]:
-    data = await fetch_api(url)
-    posts_json = data['posts']
+async def get_posts(url) -> list[Post]:
+    posts_json = await fetch_api(url)
     posts =[]
     for post in posts_json:
-        posts.append(Post(user_id=post['user_id'],
+        posts.append(Post(user_id=post['userId'],
                           title=post['title'],
                           body=post['body']))
     return posts
+
 
 """
 создайте асинхронные функции для выполнения запросов к ресурсам (используйте aiohttp)
@@ -50,5 +43,4 @@ async def get_posts(url) -> list[User]:
     - создайте асинхронные функции для выполнения запросов к данным ресурсам (используйте `aiohttp`)
         - рекомендуется добавить базовые функции для запросов, которые будут переиспользованы (например `fetch_json`)
 """
-
 
