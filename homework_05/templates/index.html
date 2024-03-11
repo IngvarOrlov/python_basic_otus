@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Python Developer. Basic
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>Для кого этот курс?</strong> <a href="https://otus.ru/lessons/python-basic/" target="_blank">Освойте</a> ключевые возможности Python для решения задач в различных IT-областях
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Python Developer. Professional
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>Для кого этот курс?</strong><a href="https://otus.ru/lessons/python-professional/ " target="_blank">Профессиональный онлайн-курс</a> для тех, кто уже имеет опыт программирования на Python и хочет повысить свой уровень за счет новых знаний и навыков из различных областей разработки. Если вы уверенно чувствуете себя с Python, помните C, имеете представление о сетевом взаимодействии и реляционных СУБД, умеете обращаться с Linux, Git и прочими стандартными инструментами девелопера — курс для вас.
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Python QA Engineer
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <strong>Для кого этот курс?</strong> <a href="https://otus.ru/lessons/avtomatizaciya-web-testirovaniya/" target="_blank">Курс</a> подойдет специалистам автоматизированного тестирования на Python с опытом работы до 2-х лет, желающих углубить и систематизировать свои знания или специалистам автоматизированного тестирования желающим перейти на Python QA.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock%}
